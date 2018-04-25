@@ -116,6 +116,7 @@ footer.show{display: flex!important;}
 footer{height: 100px;display: flex;width: 100%;position: fixed;left: 0px;bottom: 0px;background: #fff;border-top:2px solid #E1E1E1;}
 footer li{flex: 1;height: 100%;}
 footer li .imgbox{width: 50px;background-size:100% 100%;height: 50px;margin: 10px auto;}
+/*
 footer li .index{background-image: url(../image/indexIcon.png);}
 footer li .userCenter{background-image: url(../image/userCenter.png);}
 footer li .onlineView{background-image: url(../image/onlineView.png);}
@@ -126,6 +127,7 @@ footer li .index.cur{background-image: url(../image/indexIcon_col.png);}
 footer li .userCenter.cur{background-image: url(../image/userCenter_col.png);}
 footer li .onlineView.cur{background-image: url(../image/onlineView_col.png);}
 footer li .jobTake.cur{background-image: url(../image/jobTake_col.png);}
+*/
 footer li .title.cur{color: #FF6000;}
 
 footer li:active{background: #E1E1E1;}

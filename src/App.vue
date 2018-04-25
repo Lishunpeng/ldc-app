@@ -24,8 +24,8 @@
 		created() {
 			this.myfun.getThis(this);
 			//定位
-			this.myfun.getLocation();
-
+//			this.myfun.getLocation();
+			/*
 			$(document).scroll(function(){
 				var wh = $(document).scrollTop();
 				if(wh>3){
@@ -34,9 +34,10 @@
 					$('header').removeClass('myFixed');
 				}
 			});
-			localStorage.token = localStorage.token || '123';
+			*/
+//			localStorage.token = localStorage.token || '123';
 			this.isShow = false;
-			this.myfun.addBackClick();
+//			this.myfun.addBackClick();
 		}
 	}
 </script>

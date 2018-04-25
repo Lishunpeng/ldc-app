@@ -2,9 +2,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import myaddress from './city-picker.data.js'
 import {MessageBox,Toast} from 'mint-ui';
-
-
-
 Vue.prototype.myfun = {
 	changeToken: function(data) {
 		data.token ? localStorage.token = data.token : "";
@@ -347,7 +344,12 @@ Vue.prototype.myfun = {
    	},
    	//时间转换成时间戳
    	timeToTimestamp:function(time){
-   		var timestamp = new Date(time.replace(/-/g, '/'));
+// 		console.log(time);
+		if(time){
+			var timestamp = new Date(time.replace(/-/g, '/'));			
+		}else{
+			var timestamp = new Date();	
+		}
    		timestamp = Date.parse(timestamp);
    		return timestamp;
    	},
@@ -786,6 +788,23 @@ Vue.prototype.myfun = {
 			
 		}*/
 //		console.log(myaddress);
+	},
+	format:function(time,fmt){
+		var timestamp = this.timeToTimestamp(time);
+		var _date = new Date(timestamp);
+			var o = {
+	        "M+": _date.getMonth() + 1, //月份 
+	        "d+": _date.getDate(), //日 
+	        "h+": _date.getHours(), //小时 
+	        "m+": _date.getMinutes(), //分 
+	        "s+": _date.getSeconds(), //秒 
+	        "q+": Math.floor((_date.getMonth() + 3) / 3), //季度 
+	        "S": _date.getMilliseconds() //毫秒 
+	    };
+	    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (_date.getFullYear() + "").substr(4 - RegExp.$1.length));
+	    for (var k in o)
+	        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	    return fmt;
 	},
 	inputExpress:function(obj){
 		obj.$nextTick(()=>{
