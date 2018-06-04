@@ -12,7 +12,8 @@ Vue.use(vuePicturePreview)
 Vue.use(MintUI)
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
-Vue.prototype.$ips = 'http://192.168.2.22:80' 
+//Vue.prototype.$ips = 'http://192.168.2.22:80' 
+Vue.prototype.$ips = 'http://localhost:2002' 
 Vue.prototype.$phone = /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$///手机号码
 Vue.prototype.$email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;//邮箱
 Vue.prototype.$intNumber = /^[1-9]\d*$///整数
@@ -22,7 +23,7 @@ Vue.prototype.$url = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF9
 Vue.prototype.$telePhone = /^0[\d]{2,3}-[\d]{7,8}$/;//固定电话
 Vue.prototype.$postCode = /^[1-9]\d{5}(?!\d)$/g;//邮编
 import './assets/css/reset.css'
-import './assets/css/loading.css'
+//import './assets/css/loading.css'
 import 'lib-flexible/flexible.js'
 import './assets/js/public.js'
 //Vue.prototype.$myfun = myfun

@@ -3,59 +3,61 @@ import axios from 'axios'
 import myaddress from './city-picker.data.js'
 import {MessageBox,Toast} from 'mint-ui';
 Vue.prototype.myfun = {
+//	myfun_ips: 'http://192.168.2.22:80',
+	myfun_ips: 'http://localhost:2002',
 	changeToken: function(data) {
 		data.token ? localStorage.token = data.token : "";
 		console.log(localStorage.token);
 	},
-	postAxios: function(obj, data, callback) {	
+	postAxios: function(obj, data, callback) {
 		$('.loadingBox').show();
-		console.log(data);
-		if(obj.isUnchangeString){
+		if(obj.isUnchangeString) {
 			var strdata = data;
-		}else{
+		} else {
 			var strdata = "";
-			for (var i in data){
-	    		  strdata += i+'='+data[i]+'&';
-	   		}
+			for(var i in data) {
+				strdata += i + '=' + data[i] + '&';
+			}
 		}
-		strdata = strdata.substr(0,strdata.length-1);
-		console.log(strdata);
-		axios.post('http://192.168.2.22:80' + obj.path + '?token=' + localStorage.token, strdata, {
+		strdata = strdata.substr(0, strdata.length - 1);
+		axios.post(this.myfun_ips + obj.path + '?token=' + localStorage.token, strdata, {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			}
 		}).then(res => {
-			console.log(obj);
 			$('.loadingBox').hide();
 			if(res.status == 200) {
 				this.changeToken(res.data);
 				if(res.data.state == -1) {
-					if(res.data.content!=null){
-						if(res.data.content.islogin==-1){
-							return	MessageBox('提示','你还未登录,请先登录!').then(()=>{
-								this._mySelf.$router.push({path:'/login/login'});
+					if(res.data.content != null) {
+						if(res.data.content.islogin == -1) {
+							this._mySelf.$router.push({path: '/login/login'});
+							return Toast({
+								message: '你还未登录,请先登录!',
+								position: 'bottom',
+								duration: 1000
 							});
-						}						
+						}
 					}
-					res.data.msg = res.data.msg?res.data.msg:'错误';
-					console.log(res);
+					res.data.msg = res.data.msg ? res.data.msg : '错误';
 					Toast(res.data.msg);
 				} else if(res.data.state == 0) {
 					return callback(res.data);
 				}
 			}
-		}).catch(res=>{
-			var	myErr = res.toString();
-			if(myErr.indexOf('Network Error')>=0){
-				MessageBox('提示','服务器异常或者检查您的网络是否异常！');				
+		}).catch(res => {
+			var myErr = res.toString();
+			if(myErr.indexOf('Network Error') >= 0) {
+				MessageBox('提示', '服务器异常或者检查您的网络是否异常！');
 			}
 			$('.loadingBox').hide();
 			console.log(res);
 		});
 	},
-	post_imgAxios: function(obj, data,callback) {	
+	post_imgAxios: function(obj, data, callback) {
+		console.log(data);
 		$('.loadingBox').show();
-		axios.post('http://192.168.2.22:80' + obj.path + '?token=' + localStorage.token,data,{
+		axios.post(this.myfun_ips + obj.path + '?token=' + localStorage.token, data, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}
@@ -64,61 +66,66 @@ Vue.prototype.myfun = {
 			if(res.status == 200) {
 				this.changeToken(res.data);
 				if(res.data.state == -1) {
-					if(res.data.content!=null){
-						if(res.data.content.islogin==-1){
-							return	MessageBox('提示','你还未登录,请先登录!').then(()=>{
-								this._mySelf.$router.push({path:'/login/login'});
+					if(res.data.content != null) {
+						if(res.data.content.islogin == -1) {
+							this._mySelf.$router.push({path: '/login/login'});
+							return Toast({
+								message: '你还未登录,请先登录!',
+								position: 'bottom',
+								duration: 1000
 							});
-						}						
+						}
 					}
 					Toast(res.data.msg);
 				} else if(res.data.state == 0) {
 					return callback(res.data);
 				}
 			}
-		}).catch(res=>{
-			var	myErr = res.toString();
-			if(myErr.indexOf('Network Error')>=0){
-				MessageBox('提示','服务器异常或者检查您的网络是否异常！');				
+		}).catch(res => {
+			var myErr = res.toString();
+			if(myErr.indexOf('Network Error') >= 0) {
+				MessageBox('提示', '服务器异常或者检查您的网络是否异常！');
 			}
 			$('.loadingBox').hide();
 			console.log(res);
 		});
 	},
-	
-	
-	
-	
-	getAxios: function(obj,callback) {	
+
+	getAxios: function(obj, callback) {
 		$('.loadingBox').show();
-		axios.get('http://192.168.2.22:80' + obj.path + '?token=' + localStorage.token).then(res => {
+		var _tokenStr = obj.getMethod ? '&token=' : '?token=';
+		axios.get(this.myfun_ips + obj.path + _tokenStr + localStorage.token).then(res => {
 			$('.loadingBox').hide();
 			//验证码接口特别重写
-			if (obj.isVer) {
+			if(obj.isVer) {
 				return callback(res);
 			}
 			if(res.status == 200) {
 				this.changeToken(res.data);
 				if(res.data.state == -1) {
-					if(res.data.content!=null){
-						if(res.data.content.islogin==-1){
-							console.log(res,'爱上大杀手打算');
-							return	MessageBox('提示','你还未登录,请先登录!').then(()=>{
-								this._mySelf.$router.push({path:'/login/login'});
+					if(res.data.content != null) {
+						if(res.data.content.islogin == -1) {
+							this._mySelf.$router.push({path: '/login/login'});
+							return Toast({
+								message: '你还未登录,请先登录!',
+								position: 'bottom',
+								duration: 1000
 							});
-						}						
+						}
 					}
-					res.data.msg = res.data.msg?res.data.msg:'错误';
-					console.log(res);
+					res.data.msg = res.data.msg ? res.data.msg : '错误';
 					Toast(res.data.msg);
+					if(res.data.msg.indexOf('请完善个人信息再填写简历'>=0) || res.data.msg.indexOf('请填写网站企业信息再发布招聘'>=0)){
+						return obj.that.isCompleteInfo = false;
+					}
 				} else if(res.data.state == 0) {
 					return callback(res.data);
 				}
 			}
-		}).catch(res=>{
-			var	myErr = res.toString();
-			if(myErr.indexOf('Network Error')>=0){
-				MessageBox('提示','服务器异常或者检查您的网络是否异常！');				
+		}).catch(res => {
+			var myErr = res.toString();
+			if(myErr.indexOf('Network Error') >= 0) {
+				MessageBox('提示', '服务器异常或者检查您的网络是否异常！');
 			}
 			$('.loadingBox').hide();
 			console.log(res);
